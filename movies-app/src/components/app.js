@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import MovieItem from './movieItem';
 import MovieList from './movieList';
 import MovieService from '../services/movie-service';
-import { Layout } from 'antd';
 
 export default class App extends Component {
   movieService = new MovieService();
@@ -28,7 +26,7 @@ export default class App extends Component {
   render() {
     console.log(this.state.itemsList);
     return (
-      <div>
+      <div className='body'>
           <MovieList list={this.state.itemsList}/>
       </div>
     )

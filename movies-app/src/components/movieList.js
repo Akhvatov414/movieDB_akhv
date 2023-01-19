@@ -7,14 +7,14 @@ export default class movieList extends Component {
     const elements = [...this.props.list].map((el) => {
         const {id, ...itemProps} = el;
         return (
-            <div key={id}>
+            <div key={id} className='item'>
                 <MovieItem {...itemProps}/>
             </div>
             
         )
     })
     return (
-      <div>
+      <div className='list'>
         {elements}
       </div>
     )
