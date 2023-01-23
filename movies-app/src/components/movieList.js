@@ -1,4 +1,7 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+
+
+
 import MovieItem from './movieItem';
 
 export default class movieList extends Component {    
@@ -9,13 +12,13 @@ export default class movieList extends Component {
         return (
             <div key={id} className='item'>
                 <MovieItem {...itemProps}/>
-            </div>
-            
-        )
-    })
+            </div>            
+        );
+    });
+
     return (
       <div className='list'>
-        {elements}
+        { elements }
       </div>
     )
   }

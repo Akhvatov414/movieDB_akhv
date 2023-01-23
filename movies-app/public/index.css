@@ -3,22 +3,38 @@ body{
 }
 
 .title {
+    width: 228px;
     font-size: 20px;
+    flex: none !important;
 }
 
 .release {
+    display: flex;
     font-size: 12px;
     line-height: 22px;
     color: #827E7E;
+    flex: none !important;
 }
 
 .overview {
+    display: flex;
     font-size: 12px;
     line-height: 22px;
+    width: 228px;
+    height: 129px;
+    max-height: 129px;
+    overflow: hidden;
+    flex: none !important;
 }
 
 .test {
     background-color: white;
+}
+
+.app {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
 }
 
 .list {
@@ -31,6 +47,7 @@ body{
 }
 
 .frame {
+    display: flex;
     background: #FFFFFF;
     width: 451px;
     height: 279px;
@@ -45,4 +62,19 @@ body{
 
 .frame__overview {
     padding-left: 12px;
+    overflow: hidden;
+    gap: 7px;
+    flex: content;
+}
+
+.header {
+    display: flex;
+    margin: 0 auto;
+    width: 1010px;
+    
+}
+
+.input {
+    width: 938px;
+    height: 40px;
 }
