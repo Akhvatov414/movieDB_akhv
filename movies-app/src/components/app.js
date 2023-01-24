@@ -12,6 +12,7 @@ export default class App extends Component {
 
     state = {
         itemsList: [],
+        totalResults: null,
         isLoading: true,
         inError: false,
     }
@@ -21,29 +22,35 @@ export default class App extends Component {
         this.getList();
     }
 
-    async getList() {
-        this.movieService.getResults('bat')
-                         .then((movie) => {
-                            this.setState({
-                                itemsList: movie,
-                                isLoading: false,
-                            });
-                         })
-                         .catch(() => {
-                          this.setState( { inError: true })
-                         });
+    getList = (query) => {
+      //this.setState({ isLoading: true })
+      this.movieService.searchMovies(query)
+                        .then((res) => {
+                          console.log(res);
+                           this.setState({
+                               itemsList: res.results.map(i => i),
+                               totalResults: res.totalResults,
+                               isLoading: false,
+                           });
+                          })
+                        .catch(() => {
+                         this.setState( { itemsList: [],
+                                          inError: true });
+                        });
     }
 
   render() {
     const { isLoading, inError } = this.state;
     const spinner = isLoading && !inError ? <Spinner/> : null;
-    const list = !isLoading ? <MovieList list={this.state.itemsList} isLoading={this.state.isLoading}/> : null;
-    console.log(this.state);
+    const list = !isLoading ? <MovieList list={this.state.itemsList} isLoading={this.state.isLoading} getList={this.getList}/> : null;
+    const errors = inError ? <ErrorMessage/> : null;
+    
     return (
       <div className='app'>
         <Online>
-          <AppHeader/>
+          <AppHeader getList={this.getList}/>
           { spinner }
+          { errors }
           { list }  
         </Online>
         <Offline>
@@ -63,3 +70,13 @@ const Spinner = () => {
     </React.Fragment>
   );
 };
+
+const ErrorMessage = () => {
+  return (
+    <React.Fragment>
+      {<Alert message='Упс!'
+               description='Не удалось получить список фильмов'
+               type='error'/>}
+    </React.Fragment>
+  )
+}

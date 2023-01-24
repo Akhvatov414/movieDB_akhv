@@ -21,7 +21,6 @@ export default class MovieItem extends Component {
             backgroundSize: `100% 100%`,
           }}>
     </Sider>;
-    
     return (
         <Layout className='frame'>
           { poster }
@@ -33,7 +32,7 @@ export default class MovieItem extends Component {
               {release_date}
             </Content>
             <Content className='overview'>
-              {overview}
+              { overview.length > 140 ? `${ overview.slice(0, 140)}...` : overview}
             </Content>
           </Layout>
         </Layout>

@@ -23,7 +23,6 @@ body{
     width: 228px;
     height: 129px;
     max-height: 129px;
-    overflow: hidden;
     flex: none !important;
 }
 
@@ -34,6 +33,7 @@ body{
 .app {
     display: flex;
     flex-direction: column;
+    align-items: center;
     margin: 0 auto;
 }
 
