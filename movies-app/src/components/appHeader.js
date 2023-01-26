@@ -8,8 +8,8 @@ export default class AppHeader extends Component {
   };
 
   inputHandler =  debounce((query) => {
-    const { getList } = this.props;
-    console.log(query);
+    const { getList, setQuery } = this.props;
+    setQuery(query);
     getList(query);
   }, 500);
 

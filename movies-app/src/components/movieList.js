@@ -18,7 +18,6 @@ export default class MovieList extends Component {
   }
 
   render() {
-    //console.log(this.props.list);
     const elements = this.props.list.map((el) => {
         const {id, ...itemProps} = el;
         return (

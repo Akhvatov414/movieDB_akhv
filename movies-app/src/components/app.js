@@ -3,34 +3,39 @@ import { Online, Offline } from 'react-detect-offline';
 import MovieList from './movieList';
 import AppHeader from './appHeader';
 import MovieService from '../services/movie-service';
-import { Alert, Spin } from 'antd';
+import { Alert, Spin, Tabs } from 'antd';
 
 
 
 export default class App extends Component {
   movieService = new MovieService();
-
-    state = {
+    constructor() {
+        super();
+        this.state = {
         itemsList: [],
         totalResults: null,
         isLoading: true,
         inError: false,
+        query: 'return',
+    }
+        //this.getList('return');
+        console.log(this.state);
     }
 
-    constructor() {
-        super();
-        this.getList();
+    setQuery = (query) => {
+      this.setState({ query: query });
     }
 
     getList = (query) => {
-      //this.setState({ isLoading: true })
+      
       this.movieService.searchMovies(query)
                         .then((res) => {
-                          console.log(res);
+                          this.setState({ isLoading: true });
                            this.setState({
                                itemsList: res.results.map(i => i),
                                totalResults: res.totalResults,
                                isLoading: false,
+                               inError: false,
                            });
                           })
                         .catch(() => {
@@ -40,18 +45,38 @@ export default class App extends Component {
     }
 
   render() {
-    const { isLoading, inError } = this.state;
+    const { itemsList, isLoading, inError } = this.state;
     const spinner = isLoading && !inError ? <Spinner/> : null;
-    const list = !isLoading ? <MovieList list={this.state.itemsList} isLoading={this.state.isLoading} getList={this.getList}/> : null;
+    //const list = !isLoading && !inError ? <MovieList list={itemsList} isLoading={isLoading} getList={this.getList}/> : null;
     const errors = inError ? <ErrorMessage/> : null;
+    const items = [
+      {
+        label: 'Search',
+        key: '1',
+        children: (
+          <div>
+            <AppHeader getList={this.getList} setQuery={this.setQuery}/>
+            { spinner }
+            { errors }
+            <MovieList list={itemsList} isLoading={isLoading} getList={this.getList}/>            
+          </div>
+        )
+      }, 
+      {
+        label: 'Rated',
+        key: '2',
+        children: (
+          <div>
+            rated movies        
+          </div>
+        )
+      }
+    ]
     
     return (
       <div className='app'>
         <Online>
-          <AppHeader getList={this.getList}/>
-          { spinner }
-          { errors }
-          { list }  
+            <Tabs defaultActiveKey='1' centered items={items} destroyInactiveTabPane/>
         </Online>
         <Offline>
           <Alert message='Нет подключения к сети' 
