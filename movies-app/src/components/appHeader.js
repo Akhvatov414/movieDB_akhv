@@ -7,18 +7,16 @@ export default class AppHeader extends Component {
     inputValue: '',
   };
 
-  inputHandler =  debounce((query) => {
+  inputHandler =  debounce((query, page) => {
     const { getList, setQuery } = this.props;
     setQuery(query);
-    getList(query);
+    getList(query, page);
   }, 500);
 
   onChangeHandle = (e) => {
-    this.inputHandler(e.target.value);
+    this.inputHandler(e.target.value, 1);
     this.setState({ inputValue: e.target.value });
-  }
-
-  
+  }  
 
   render() {
     const { inputValue } = this.state;

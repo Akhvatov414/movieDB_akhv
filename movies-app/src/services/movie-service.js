@@ -24,9 +24,9 @@ export default class MovieService {
     }    
   };
 
-  async searchMovies(query){
+  async searchMovies(query, page){
     try {
-      const res = await fetch(`${this._apiSearchURL}&query=${query}`)
+      const res = await fetch(`${this._apiSearchURL}&query=${query}&page=${page}`)
       return await res.json();
     } catch(err) {
       console.log(err.message);

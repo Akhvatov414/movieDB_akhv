@@ -26,14 +26,14 @@ export default class App extends Component {
       this.setState({ query: query });
     }
 
-    getList = (query) => {
+    getList = (query, page) => {
       
-      this.movieService.searchMovies(query)
+      this.movieService.searchMovies(query, page)
                         .then((res) => {
                           this.setState({ isLoading: true });
                            this.setState({
                                itemsList: res.results.map(i => i),
-                               totalResults: res.totalResults,
+                               totalResults: res.total_results,
                                isLoading: false,
                                inError: false,
                            });
@@ -45,7 +45,7 @@ export default class App extends Component {
     }
 
   render() {
-    const { itemsList, isLoading, inError } = this.state;
+    const { itemsList, isLoading, inError, totalResults, query } = this.state;
     const spinner = isLoading && !inError ? <Spinner/> : null;
     //const list = !isLoading && !inError ? <MovieList list={itemsList} isLoading={isLoading} getList={this.getList}/> : null;
     const errors = inError ? <ErrorMessage/> : null;
@@ -58,7 +58,7 @@ export default class App extends Component {
             <AppHeader getList={this.getList} setQuery={this.setQuery}/>
             { spinner }
             { errors }
-            <MovieList list={itemsList} isLoading={isLoading} getList={this.getList}/>            
+            <MovieList list={itemsList} isLoading={isLoading} inError={inError} getList={this.getList} totalResults={totalResults} query={query}/>            
           </div>
         )
       }, 
