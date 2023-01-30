@@ -11,6 +11,7 @@ export default class App extends Component {
   movieService = new MovieService();
     constructor() {
         super();
+        
         this.state = {
         itemsList: [],
         totalResults: null,
