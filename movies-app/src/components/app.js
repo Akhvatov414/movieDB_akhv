@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Online, Offline } from 'react-detect-offline';
 import MovieList from './movieList';
 import AppHeader from './appHeader';
+import ContextGengres from './contextGenres';
 import MovieService from '../services/movie-service';
 import { Alert, Spin, Tabs } from 'antd';
 
@@ -17,18 +18,31 @@ export default class App extends Component {
         totalResults: null,
         isLoading: true,
         inError: false,
+        genres: [],
         query: 'return',
     }
-        //this.getList('return');
-        console.log(this.state);
+    }
+
+    componentDidMount() {
+      if (!localStorage.getItem('guestSessionId')) {
+        this.movieService.getGuestSession()
+          .then((res) => {
+            localStorage.setItem('guestSessionId', res.guest_session_id);
+          });
+
+        this.movieService.getGenres()
+           .then((data) => console.log(data));
+        return;
+        }
+        this.movieService.getGenres()
+           .then((data) => this.setState({ genres: data.genres }));
     }
 
     setQuery = (query) => {
       this.setState({ query: query });
     }
 
-    getList = (query, page) => {
-      
+    getList = (query, page) => {      
       this.movieService.searchMovies(query, page)
                         .then((res) => {
                           this.setState({ isLoading: true });
@@ -46,7 +60,7 @@ export default class App extends Component {
     }
 
   render() {
-    const { itemsList, isLoading, inError, totalResults, query } = this.state;
+    const { itemsList, isLoading, inError, totalResults, query, genres } = this.state;
     const spinner = isLoading && !inError ? <Spinner/> : null;
     //const list = !isLoading && !inError ? <MovieList list={itemsList} isLoading={isLoading} getList={this.getList}/> : null;
     const errors = inError ? <ErrorMessage/> : null;
@@ -77,7 +91,9 @@ export default class App extends Component {
     return (
       <div className='app'>
         <Online>
+          <ContextGengres.Provider value={genres}>
             <Tabs defaultActiveKey='1' centered items={items} destroyInactiveTabPane/>
+          </ContextGengres.Provider>
         </Online>
         <Offline>
           <Alert message='Нет подключения к сети' 

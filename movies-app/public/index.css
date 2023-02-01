@@ -21,7 +21,6 @@ body{
     font-size: 12px;
     line-height: 22px;
     width: 228px;
-    height: 129px;
     max-height: 129px;
     flex: none !important;
 }
@@ -49,8 +48,8 @@ body{
 .frame {
     display: flex;
     background: #FFFFFF;
-    width: 451px;
-    height: 279px;
+    width: 454px;
+    height: 281px;
     margin-bottom: 10px;
     filter: drop-shadow(0px 4px 12px rgba(0, 0, 0, 0.15));
 }
@@ -77,4 +76,27 @@ body{
 .input {
     width: 938px;
     height: 40px;
+}
+
+.genre {
+    display: inline-block;
+    color: rgba(0, 0, 0, 0.65);
+    padding: 2px 5px 3px;
+    background: #fafafa;
+    border: 1px solid #d9d9d9;
+    border-radius: 2px;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 15px;
+    margin-right: 8px;
+    margin-bottom: 7px;
+}
+
+.stars {
+    width: 100%;
+}
+
+.poster {
+    width: 183px;
+    height: 281px;
 }
