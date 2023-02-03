@@ -7,8 +7,8 @@ import style from './index.module.css';
 export default class MovieItem extends Component {  
 
   render() {
-    const {id, title, overview, vote_average, genre_ids, poster_path, release_date} = this.props;
-
+    const {id, title, overview, vote_average, genre_ids, poster_path, release_date, rateMovie} = this.props;
+    //console.log(this.props);
     const posterUrl = 'https://image.tmdb.org/t/p/original';
     const poster = poster_path !== null ? 
     <div className={style.poster} style={{
@@ -29,6 +29,10 @@ export default class MovieItem extends Component {
       if (score >= 5 && score < 7) return '#E9D100';
       if (score >= 7) return '#66E900';
       return '#000000';
+    }
+
+    const setRate = (rate) => {
+      rateMovie(this.props.id, rate);
     }
 
     return (
@@ -66,7 +70,7 @@ export default class MovieItem extends Component {
               <div className={style.overview}>
                 { overview.length > 140 ? `${ overview.slice(0, 140)}...` : overview}
               </div>
-              <Rate className={style.stars} count={10}/>
+              <Rate className={style.stars} count={10} onChange={setRate} rateMovie={rateMovie} />
             </div>
           </div>
       </div>

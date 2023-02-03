@@ -5,6 +5,7 @@ import AppHeader from './AppHeader/appHeader';
 import ContextGengres from './ContextGenres/contextGenres';
 import MovieService from '../services/movie-service';
 import { Alert, Spin, Tabs } from 'antd';
+import RatedList from './RatedList/ratedList';
 
 
 
@@ -19,6 +20,7 @@ export default class App extends Component {
         isLoading: true,
         inError: false,
         genres: [],
+        ratedList: {},
         query: 'return',
     }
     }
@@ -29,18 +31,42 @@ export default class App extends Component {
           .then((res) => {
             localStorage.setItem('guestSessionId', res.guest_session_id);
           });
-
-        this.movieService.getGenres()
-           .then((data) => console.log(data));
         return;
         }
+        this.getRatedItems();
         this.movieService.getGenres()
            .then((data) => this.setState({ genres: data.genres }));
     }
 
     setQuery = (query) => {
       this.setState({ query: query });
-    }
+    };
+
+    rateMovie = (id, rate) => {
+      this.movieService.rateMovie(id, rate);
+      this.setState((state) => ({
+        ratedList: {...state.ratedList, [id]: rate},
+      }));
+    };
+
+    getRatedItems = () => {
+      this.movieService
+        .getRatedMovies(1)
+        .then((res) => res.total_pages)
+        .then((pages) => {
+          const items = [];
+          for(let i = 1; i <= pages; i +=1) {
+            items.push(this.movieService.getRatedMovies(i));
+          }
+          Promise.all(items).then((res) => {
+            this.setState({
+              ratedList: res.reduce((acc, page) => [...acc, ...page.results], [])
+                            .map((item) =>({ [item.id]: item.rating }))
+                            .reduce((acc, obj) => ({...acc, [Object.keys(obj)[0]]: obj[Object.keys(obj)[0]] }), {}),
+            });
+          }); 
+        });
+    };
 
     getList = (query, page) => {      
       this.movieService.searchMovies(query, page)
@@ -60,7 +86,7 @@ export default class App extends Component {
     }
 
   render() {
-    const { itemsList, isLoading, inError, totalResults, query, genres } = this.state;
+    const { itemsList, isLoading, inError, totalResults, query, genres, ratedList } = this.state;
     const spinner = isLoading && !inError ? <Spinner/> : null;
     //const list = !isLoading && !inError ? <MovieList list={itemsList} isLoading={isLoading} getList={this.getList}/> : null;
     const errors = inError ? <ErrorMessage/> : null;
@@ -73,7 +99,7 @@ export default class App extends Component {
             <AppHeader getList={this.getList} setQuery={this.setQuery}/>
             { spinner }
             { errors }
-            <MovieList list={itemsList} isLoading={isLoading} inError={inError} getList={this.getList} totalResults={totalResults} query={query}/>            
+            <MovieList list={itemsList} ratedList={ratedList} isLoading={isLoading} inError={inError} getList={this.getList} rateMovie={this.rateMovie} totalResults={totalResults} query={query}/>            
           </div>
         )
       }, 
@@ -82,7 +108,7 @@ export default class App extends Component {
         key: '2',
         children: (
           <div>
-            rated movies        
+            <RatedList ratedList={ratedList} rateMovie={this.rateMovie} />       
           </div>
         )
       }
