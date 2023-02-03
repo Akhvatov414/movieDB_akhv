@@ -1,0 +1,10 @@
+.header {
+    display: flex;
+    margin: 0 auto;
+    width: 1010px;    
+}
+
+.input {
+    width: 938px;
+    height: 40px;
+}

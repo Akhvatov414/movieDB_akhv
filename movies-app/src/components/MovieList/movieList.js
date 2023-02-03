@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 
 
 
-import MovieItem from './movieItem';
-import MoviePagination from './moviePagination';
+import MovieItem from '../MovieItem/movieItem';
+import MoviePagination from '../MoviePagination/moviePagination';
+import style from './index.module.css';
 
 export default class MovieList extends Component {
 
@@ -23,20 +24,18 @@ export default class MovieList extends Component {
     const elements = list.map((el) => {
         const {id, ...itemProps} = el;
         return (
-            <div key={id} className='item'>
-                <MovieItem {...itemProps}/>
-            </div>            
+          <MovieItem key={id} {...itemProps}/>
         );
     });
     const noResults = !isLoading && !inError && list.length === 0 ? <h2>По вашему запросу ничего не найдено</h2> : null;   
     
     return (
       <div >
-      <div className='list'>
+      <div className={style.list}>
         { elements }
         { noResults }
       </div>
-      <div className='pagination'>
+      <div className={style.pagination}>
         <MoviePagination getList={getList} totalResults={totalResults} query={query}/>
       </div>
       </div>

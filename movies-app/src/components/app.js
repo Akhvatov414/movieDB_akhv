@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Online, Offline } from 'react-detect-offline';
-import MovieList from './movieList';
-import AppHeader from './appHeader';
-import ContextGengres from './contextGenres';
+import MovieList from './MovieList/movieList';
+import AppHeader from './AppHeader/appHeader';
+import ContextGengres from './ContextGenres/contextGenres';
 import MovieService from '../services/movie-service';
 import { Alert, Spin, Tabs } from 'antd';
 

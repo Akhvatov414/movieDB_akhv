@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Form, Input } from 'antd';
 import { debounce } from 'lodash';
 
+import style from './index.module.css';
+
 export default class AppHeader extends Component {
   state = {
     inputValue: '',
@@ -23,9 +25,9 @@ export default class AppHeader extends Component {
 
     return (
       <div>
-        <Form className='header'>
+        <Form className={style.header}>
           <Form.Item name='search-form-input'>
-            <Input className='input' 
+            <Input className={style.input }
                    placeholder='Type to search...'
                    value={inputValue}
                    onChange={this.onChangeHandle}/>
