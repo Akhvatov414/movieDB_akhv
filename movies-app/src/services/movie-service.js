@@ -66,6 +66,7 @@ export default class MovieService {
   async rateMovie(id, rate) {
     try {
       const sessionId = localStorage.getItem('guestSessionId');
+      console.log(sessionId);
       const queryUrl = `${this._apiURL}${id}/rating${this._apiKey}&guest_session_id=${sessionId}`;
       const res = await fetch(queryUrl, {
         method: 'POST',
