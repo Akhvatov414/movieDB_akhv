@@ -5,12 +5,14 @@ export default class MovieService {
   _apiGenres = `https://api.themoviedb.org/3/genre/movie/list${this._apiKey}`
   _apiSearchURL = `https://api.themoviedb.org/3/search/movie${this._apiKey}`;
   _apiRatedURL = `https://api.themoviedb.org/3/guest_session/`;
+  _apiGuestId = '9e101ea6ecd1c74586d1172648e05758';
 
 
   async getGuestSession() {
     try{
       const res = await fetch(this._apiAuth);
-      return await res.json();
+      console.log(res);
+      return res.json();
     } catch(err) {
       throw new Error('Oops');
     }
@@ -39,7 +41,7 @@ export default class MovieService {
   async searchMovies(query, page){
     try {
       const res = await fetch(`${this._apiSearchURL}&query=${query}&page=${page}`)
-      return await res.json();
+      return res.json();
     } catch(err) {
       throw new Error('Oops');
     }    
@@ -66,8 +68,7 @@ export default class MovieService {
   async rateMovie(id, rate) {
     try {
       const sessionId = localStorage.getItem('guestSessionId');
-      console.log(sessionId);
-      const queryUrl = `${this._apiURL}${id}/rating${this._apiKey}&guest_session_id=${sessionId}`;
+      const queryUrl = `${this._apiURL}${id}/rating${sessionId}&guest_session_id=${this._apiGuestId}`;
       const res = await fetch(queryUrl, {
         method: 'POST',
         body: JSON.stringify({
@@ -89,6 +90,7 @@ export default class MovieService {
       const sessionId = localStorage.getItem('guestSessionId');
       const url = `${this._apiRatedURL}${sessionId}/rated/movies${this._apiKey}&page=${page}`;
       const res = await fetch(url);
+      //console.log(res);
       
       return res.json();
     } catch(err) {

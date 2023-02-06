@@ -7,7 +7,7 @@ import style from './index.module.css';
 export default class MovieItem extends Component {  
 
   render() {
-    const {id, title, overview, vote_average, genre_ids, poster_path, release_date, rateMovie} = this.props;
+    const {id, title, overview, vote_average, genre_ids, poster_path, release_date, rateMovie, rating } = this.props;
     //console.log(this.props);
     const posterUrl = 'https://image.tmdb.org/t/p/original';
     const poster = poster_path !== null ? 
@@ -47,7 +47,7 @@ export default class MovieItem extends Component {
                 className={style.title__score}
                 style={{ border: `2px solid ${scoreColor(vote_average)}` }}
                 >
-                {vote_average}
+                { Math.floor(vote_average * 10) / 10 }
               </div>
             </div>
             <div className={style.release}>
@@ -57,7 +57,7 @@ export default class MovieItem extends Component {
               <ContextGengres.Consumer>
                 {
                   (genreList) => genreList.filter((genre) => genre_ids.includes(genre.id))
-                    .slice(0,6)
+                    .slice(0,3)
                     .map((genre) => (
                       <span className={style.genre} key={genre.id}>
                         {genre.name}
@@ -70,7 +70,7 @@ export default class MovieItem extends Component {
               <div className={style.overview}>
                 { overview.length > 140 ? `${ overview.slice(0, 140)}...` : overview}
               </div>
-              <Rate className={style.stars} count={10} onChange={setRate} rateMovie={rateMovie} />
+              <Rate className={style.stars} value={rating} count={10} onChange={setRate} rateMovie={rateMovie} />
             </div>
           </div>
       </div>

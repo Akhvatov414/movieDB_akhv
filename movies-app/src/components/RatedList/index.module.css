@@ -1,0 +1,12 @@
+.list{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 36px;
+    width: 1010px;
+    margin: 0 auto;
+    background: #FFFFFF;
+}
+
+.pagination{
+    display: block;
+}

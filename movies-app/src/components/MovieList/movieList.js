@@ -20,11 +20,11 @@ export default class MovieList extends Component {
   }
 
   render() {
-    const { isLoading, inError, list, getList, totalResults, query, rateMovie } = this.props;
+    const { isLoading, inError, list, getList, totalResults, query, rateMovie, ratedList } = this.props;
     const elements = list.map((el) => {
         const {id, ...itemProps} = el;
         return (
-          <MovieItem key={id} id={id} rateMovie={rateMovie} {...itemProps}/>
+          <MovieItem key={id} id={id} rateMovie={rateMovie} rating={ratedList[id]} {...itemProps}/>
         );
     });
     const noResults = !isLoading && !inError && list.length === 0 ? <h2>По вашему запросу ничего не найдено</h2> : null;   

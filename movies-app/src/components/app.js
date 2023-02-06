@@ -25,14 +25,17 @@ export default class App extends Component {
     }
     }
 
-    componentDidMount() {
+    componentDidMount() {      
       if (!localStorage.getItem('guestSessionId')) {
         this.movieService.getGuestSession()
           .then((res) => {
+            console.log(res);
             localStorage.setItem('guestSessionId', res.guest_session_id);
-          });
+          })
+          .then(() => this.getRatedItems());
         return;
         }
+        //console.log(localStorage.getItem('guestSessionId'));
         this.getRatedItems();
         this.movieService.getGenres()
            .then((data) => this.setState({ genres: data.genres }));
@@ -59,6 +62,7 @@ export default class App extends Component {
             items.push(this.movieService.getRatedMovies(i));
           }
           Promise.all(items).then((res) => {
+            console.log(res);
             this.setState({
               ratedList: res.reduce((acc, page) => [...acc, ...page.results], [])
                             .map((item) =>({ [item.id]: item.rating }))
