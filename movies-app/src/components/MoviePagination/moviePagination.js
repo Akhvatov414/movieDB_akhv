@@ -1,6 +1,8 @@
 import { Pagination } from 'antd';
 
 import React, { Component } from 'react';
+import style from './index.module.css';
+import PropTypes from 'prop-types';
 
 class MoviePagination extends Component {
     constructor(props){
@@ -21,7 +23,7 @@ class MoviePagination extends Component {
         const { page } = this.state;
 
         return (
-            <div className='pagination'>
+            <div className={style.pagination}>
                 <Pagination total={totalResults > 10000 ? 10000 : totalResults}
                             pageSize='20'
                             showSizeChanger={false}
@@ -33,6 +35,12 @@ class MoviePagination extends Component {
             </div>
         );
     }
+}
+
+MoviePagination.propTypes = {
+    totalResults: PropTypes.number,
+    query: PropTypes.string,
+    getList: PropTypes.func,
 }
 
 export default MoviePagination;

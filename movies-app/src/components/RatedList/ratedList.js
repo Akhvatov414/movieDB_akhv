@@ -3,6 +3,7 @@ import MovieService from '../../services/movie-service';
 import MovieItem from '../MovieItem/movieItem';
 import style from './index.module.css';
 import { Pagination, Spin } from 'antd';
+import PropTypes from 'prop-types';
 
 class RatedList extends Component {
     movieService = new MovieService();
@@ -42,13 +43,22 @@ class RatedList extends Component {
     render() {
         const { ratedItems, isLoading, page, totalResults } = this.state;
         const { ratedList, rateMovie } = this.props;
-
+        
         const items = ratedItems.map((el) => {
             const { id, ...itemProps } = el;
             return (
                 <MovieItem key={id} id={id} rateMovie={rateMovie} {...itemProps} rating={ratedList[id]}/>
             )
         });
+
+        const  pagination = !isLoading && ratedItems.length > 20 ? 
+        <Pagination
+          current={page}
+          pageSize="20"
+          total={totalResults > 10000 ? 10000 : totalResults}
+          onChange={this.changePage}
+        /> : null;
+
         return (
             <div>
                 <div className={style.list}>
@@ -56,24 +66,28 @@ class RatedList extends Component {
                     { !isLoading && ratedItems.length === 0 && <h2>Вы пока не оценили ни один фильм</h2> }
                 </div>
                 <div className={style.pagination}>
-                   <Pagination
-                        current={page}
-                        pageSize="20"
-                        total={totalResults > 10000 ? 10000 : totalResults}
-                        onChange={this.changePage}
-                    />
+                    {pagination}
                 </div>
             </div>
         );
     }
 }
 
+RatedList.propTypes = {
+    rateMovie: PropTypes.func.isRequired,
+    ratedList: PropTypes.object.isRequired,
+}
+
 const Spinner = () => {
     return (
       <React.Fragment>
-        <Spin size='large'/>
+        <div className='spinner'>
+            <Spin size='large'/>
+        </div>
       </React.Fragment>
     );
   };
+
+  
 
 export default RatedList;

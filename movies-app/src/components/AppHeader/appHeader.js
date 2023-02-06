@@ -3,6 +3,7 @@ import { Form, Input } from 'antd';
 import { debounce } from 'lodash';
 
 import style from './index.module.css';
+import PropTypes from 'prop-types';
 
 export default class AppHeader extends Component {
   state = {
@@ -37,3 +38,8 @@ export default class AppHeader extends Component {
     )
   }
 }
+
+AppHeader.propTypes = {
+  getList: PropTypes.func.isRequired,
+  setQuery: PropTypes.func.isRequired,
+};

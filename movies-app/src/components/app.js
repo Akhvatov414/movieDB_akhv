@@ -35,7 +35,6 @@ export default class App extends Component {
           .then(() => this.getRatedItems());
         return;
         }
-        //console.log(localStorage.getItem('guestSessionId'));
         this.getRatedItems();
         this.movieService.getGenres()
            .then((data) => this.setState({ genres: data.genres }));
@@ -62,7 +61,6 @@ export default class App extends Component {
             items.push(this.movieService.getRatedMovies(i));
           }
           Promise.all(items).then((res) => {
-            console.log(res);
             this.setState({
               ratedList: res.reduce((acc, page) => [...acc, ...page.results], [])
                             .map((item) =>({ [item.id]: item.rating }))
@@ -75,6 +73,7 @@ export default class App extends Component {
     getList = (query, page) => {      
       this.movieService.searchMovies(query, page)
                         .then((res) => {
+                          console.log(res);
                           this.setState({ isLoading: true });
                            this.setState({
                                itemsList: res.results.map(i => i),
@@ -92,7 +91,6 @@ export default class App extends Component {
   render() {
     const { itemsList, isLoading, inError, totalResults, query, genres, ratedList } = this.state;
     const spinner = isLoading && !inError ? <Spinner/> : null;
-    //const list = !isLoading && !inError ? <MovieList list={itemsList} isLoading={isLoading} getList={this.getList}/> : null;
     const errors = inError ? <ErrorMessage/> : null;
     const items = [
       {
@@ -138,7 +136,9 @@ export default class App extends Component {
 const Spinner = () => {
   return (
     <React.Fragment>
-      <Spin size='large'/>
+      <div className='spinner'>
+        <Spin size='large'/>
+      </div>
     </React.Fragment>
   );
 };

@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 
 import MovieItem from '../MovieItem/movieItem';
 import MoviePagination from '../MoviePagination/moviePagination';
+import PropTypes from 'prop-types';
 import style from './index.module.css';
 
 export default class MovieList extends Component {
@@ -42,4 +43,15 @@ export default class MovieList extends Component {
       
     )
   }
+}
+
+MovieList.propTypes = {
+  isLoading: PropTypes.bool,
+  inError: PropTypes.bool,
+  list: PropTypes.array,
+  getList: PropTypes.func,
+  totalResults: PropTypes.number, 
+  query: PropTypes.string, 
+  rateMovie: PropTypes.func, 
+  ratedList: PropTypes.object
 }
