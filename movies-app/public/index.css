@@ -31,3 +31,9 @@
   display: flex;
   justify-content: center;
 }
+
+.wrapper {
+  background: #fff;
+  max-width: 1010px;
+  margin: 0 auto;
+}
