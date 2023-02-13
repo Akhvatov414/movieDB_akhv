@@ -7,15 +7,9 @@ import MoviePagination from '../MoviePagination/moviePagination';
 import style from './index.module.css';
 
 export default class MovieList extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {};
-  }
-
   componentDidMount() {
     const { getList } = this.props;
-    getList('return');
+    getList('Star Wars', 1);
   }
 
   render() {

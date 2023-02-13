@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { Pagination, Spin } from 'antd';
+import { Pagination } from 'antd';
 import PropTypes from 'prop-types';
 
 import MovieService from '../../services/movie-service';
 import MovieItem from '../MovieItem/movieItem';
+import Spinner from '../Spinner/spinner';
 
 import style from './index.module.css';
 
@@ -76,16 +77,6 @@ class RatedList extends Component {
 RatedList.propTypes = {
   rateMovie: PropTypes.func.isRequired,
   ratedList: PropTypes.object.isRequired,
-};
-
-const Spinner = () => {
-  return (
-    <React.Fragment>
-      <div className="spinner">
-        <Spin size="large" />
-      </div>
-    </React.Fragment>
-  );
 };
 
 export default RatedList;

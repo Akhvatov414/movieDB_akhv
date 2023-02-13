@@ -2,14 +2,13 @@ import React, { Component } from 'react';
 import { Rate } from 'antd';
 import PropTypes from 'prop-types';
 
-import ContextGengres from '../ContextGenres/contextGenres';
+import ContextGengres from '../../services/contextGenres';
 
 import style from './index.module.css';
 
 export default class MovieItem extends Component {
   render() {
     const { id, title, overview, vote_average, genre_ids, poster_path, release_date, rateMovie, rating } = this.props;
-    //console.log(this.props);
     const posterUrl = 'https://image.tmdb.org/t/p/original';
     const poster =
       poster_path !== null ? (

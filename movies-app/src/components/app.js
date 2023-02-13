@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import { Online, Offline } from 'react-detect-offline';
-import { Alert, Spin, Tabs } from 'antd';
+import { Alert, Tabs } from 'antd';
 
 import MovieService from '../services/movie-service';
+import ContextGengres from '../services/contextGenres';
 
 import MovieList from './MovieList/movieList';
 import AppHeader from './AppHeader/appHeader';
-import ContextGengres from './ContextGenres/contextGenres';
 import RatedList from './RatedList/ratedList';
+import Spinner from './Spinner/spinner';
+import ErrorMessage from './ErrorMessage/errorMessage';
 
 export default class App extends Component {
   movieService = new MovieService();
@@ -21,7 +23,7 @@ export default class App extends Component {
       inError: false,
       genres: [],
       ratedList: {},
-      query: 'return',
+      query: '',
     };
   }
 
@@ -30,7 +32,6 @@ export default class App extends Component {
       this.movieService
         .getGuestSession()
         .then((res) => {
-          console.log(res);
           localStorage.setItem('guestSessionId', res.guest_session_id);
         })
         .then(() => this.getRatedItems());
@@ -72,6 +73,7 @@ export default class App extends Component {
   };
 
   getList = (query, page) => {
+    this.setQuery(query);
     this.movieService
       .searchMovies(query, page)
       .then((res) => {
@@ -95,7 +97,7 @@ export default class App extends Component {
     const items = [
       {
         label: 'Search',
-        key: '1',
+        key: 'Search',
         children: (
           <div className="wrapper">
             <AppHeader getList={this.getList} setQuery={this.setQuery} />
@@ -116,9 +118,9 @@ export default class App extends Component {
       },
       {
         label: 'Rated',
-        key: '2',
+        key: 'Rated',
         children: (
-          <div>
+          <div className="wrapper">
             <RatedList ratedList={ratedList} rateMovie={this.rateMovie} />
           </div>
         ),
@@ -127,9 +129,9 @@ export default class App extends Component {
 
     return (
       <div className="app">
-        <Online>
+        <Online polling={{ interval: 10000 }}>
           <ContextGengres.Provider value={genres}>
-            <Tabs defaultActiveKey="1" centered items={items} destroyInactiveTabPane />
+            <Tabs defaultActiveKey="Search" centered items={items} destroyInactiveTabPane />
           </ContextGengres.Provider>
         </Online>
         <Offline>
@@ -143,21 +145,3 @@ export default class App extends Component {
     );
   }
 }
-
-const Spinner = () => {
-  return (
-    <React.Fragment>
-      <div className="spinner">
-        <Spin size="large" />
-      </div>
-    </React.Fragment>
-  );
-};
-
-const ErrorMessage = () => {
-  return (
-    <React.Fragment>
-      {<Alert message="Упс!" description="Не удалось получить список фильмов" type="error" />}
-    </React.Fragment>
-  );
-};

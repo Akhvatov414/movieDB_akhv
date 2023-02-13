@@ -3,13 +3,12 @@ export default class MovieService {
   _apiURL = 'https://api.themoviedb.org/3/movie/';
   _apiAuth = `https://api.themoviedb.org/3/authentication/guest_session/new${this._apiKey}`;
   _apiGenres = `https://api.themoviedb.org/3/genre/movie/list${this._apiKey}`;
-  _apiSearchURL = `https://api.themoviedb.org/3/search/movie${this._apiKey}`;
   _apiRatedURL = 'https://api.themoviedb.org/3/guest_session/';
+  _apiURL_ = 'https://api.themoviedb.org/3/';
 
   async getGuestSession() {
     try {
       const res = await fetch(this._apiAuth);
-      console.log(res);
       return res.json();
     } catch (err) {
       throw new Error('Oops');
@@ -28,7 +27,6 @@ export default class MovieService {
   async getTop() {
     try {
       const res = await this.getMovies('top_rated');
-      console.log(res);
       return res.results;
     } catch (err) {
       throw new Error('Oops');
@@ -37,7 +35,7 @@ export default class MovieService {
 
   async searchMovies(query, page) {
     try {
-      const res = await fetch(`${this._apiSearchURL}&query=${query}&page=${page}`);
+      const res = await fetch(`${this._apiURL_}search/movie${this._apiKey}&query=${query}&page=${page}`);
       return res.json();
     } catch (err) {
       throw new Error('Oops');
