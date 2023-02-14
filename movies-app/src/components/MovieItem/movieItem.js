@@ -3,31 +3,19 @@ import { Rate } from 'antd';
 import PropTypes from 'prop-types';
 
 import ContextGengres from '../../services/contextGenres';
+import MoviePoster from '../MoviePoster/moviePoster';
 
 import style from './index.module.css';
 
 export default class MovieItem extends Component {
+  state = { loadingStatus: 'loading' };
+
+  handleLoaded = (status) => {
+    this.setState({ loadingStatus: status });
+  };
   render() {
     const { id, title, overview, vote_average, genre_ids, poster_path, release_date, rateMovie, rating } = this.props;
-    const posterUrl = 'https://image.tmdb.org/t/p/original';
-    const poster =
-      poster_path !== null ? (
-        <div
-          className={style.poster}
-          style={{
-            backgroundImage: `url("${posterUrl}${poster_path}")`,
-            backgroundSize: 'cover',
-          }}
-        ></div>
-      ) : (
-        <div
-          className={style.poster}
-          style={{
-            backgroundImage: 'url("https://s3.memeshappen.com/memes/c417e6a8633aa1ed.webp")',
-            backgroundSize: '100% 100%',
-          }}
-        ></div>
-      );
+    const { loadingStatus } = this.state;
 
     const scoreColor = (score) => {
       if (score >= 0 && score < 3) return '#E90000';
@@ -43,7 +31,9 @@ export default class MovieItem extends Component {
 
     return (
       <div key={id} className={style.item}>
-        <div className={style.poster}>{poster}</div>
+        <div className={style.poster}>
+          {<MoviePoster handleLoaded={this.handleLoaded} path={poster_path} loadingStatus={loadingStatus} />}
+        </div>
         <div className={style.content}>
           <div className={style.title}>
             <h3 className={style.title__name}>{title}</h3>
