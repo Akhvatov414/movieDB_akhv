@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 
-//import Spinner from '../Spinner/spinner';
 import notFoundImage from '../../assets/notFound.png';
 import loaderGif from '../../assets/loader.gif';
 
