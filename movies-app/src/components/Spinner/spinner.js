@@ -1,9 +1,9 @@
 import { Spin } from 'antd';
 
-const Spinner = () => {
+const Spinner = ({ loadingStatus }) => {
   return (
     <>
-      <div className="spinner">
+      <div className="spinner" style={{ display: loadingStatus === 'loaded' ? 'none' : 'flex', alignItems: 'center' }}>
         <Spin size="large" />
       </div>
     </>
