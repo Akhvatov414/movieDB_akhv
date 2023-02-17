@@ -129,7 +129,7 @@ export default class App extends Component {
 
     return (
       <div className="app">
-        <Online polling={{ interval: 10000 }}>
+        <Online>
           <ContextGengres.Provider value={genres}>
             <Tabs defaultActiveKey="Search" centered items={items} destroyInactiveTabPane />
           </ContextGengres.Provider>

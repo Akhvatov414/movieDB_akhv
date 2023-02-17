@@ -4,3 +4,9 @@
     flex-shrink: 0;
     align-items: center;
 }
+
+@media (max-width: 510px) {
+    .poster {
+        width: 60px;
+    }    
+}
