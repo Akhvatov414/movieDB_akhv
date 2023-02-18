@@ -34,7 +34,9 @@ export default class App extends Component {
         .then((res) => {
           localStorage.setItem('guestSessionId', res.guest_session_id);
         })
-        .then(() => this.getRatedItems());
+        .then(() => this.getRatedItems())
+        .then(() => this.movieService.getGenres())
+        .then((res) => this.setState({ genres: res.genres }));
       return;
     }
     this.getRatedItems();
@@ -97,7 +99,7 @@ export default class App extends Component {
     const items = [
       {
         label: 'Search',
-        key: 'Search',
+        key: '1',
         children: (
           <div className="wrapper">
             <AppHeader getList={this.getList} setQuery={this.setQuery} />
@@ -118,7 +120,7 @@ export default class App extends Component {
       },
       {
         label: 'Rated',
-        key: 'Rated',
+        key: '2',
         children: (
           <div className="wrapper">
             <RatedList ratedList={ratedList} rateMovie={this.rateMovie} />
@@ -131,7 +133,7 @@ export default class App extends Component {
       <div className="app">
         <Online>
           <ContextGengres.Provider value={genres}>
-            <Tabs defaultActiveKey="Search" centered items={items} destroyInactiveTabPane />
+            <Tabs defaultActiveKey="1" centered items={items} destroyInactiveTabPane />
           </ContextGengres.Provider>
         </Online>
         <Offline>
